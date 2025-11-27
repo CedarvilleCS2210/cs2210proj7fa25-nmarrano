@@ -1,4 +1,5 @@
 package project7;
+import java.util.Random;
 
 /**
  * Title:        Project #7
@@ -108,24 +109,22 @@ public class ArrayHeap extends ArrayBinaryTree implements Heap {
     public static void main (String[] args) {
 	    Comparator myComp = new IntegerComparator();
         Heap myHeap = new ArrayHeap (myComp, 8);
-
-        myHeap.add(new Integer(14),new Integer(14));
-        myHeap.add(new Integer(17),new Integer(17));
-        myHeap.add(new Integer(3),new Integer(3));
-        myHeap.add(new Integer(2),new Integer(21));
-        myHeap.add(new Integer(8),new Integer(8));
-        myHeap.add(new Integer(7),new Integer(18));
-        myHeap.add(new Integer(1),new Integer(1));
-        myHeap.add(new Integer(19),new Integer(11));
-        myHeap.add(new Integer(17),new Integer(17));
-        myHeap.add(new Integer(25),new Integer(6));
+        Random random = new Random();
+        for (int i = 0; i < 10000; i++) {
+            int newKey = random.nextInt(Integer.MAX_VALUE);
+            myHeap.add(newKey, i);
+        }
 
         System.out.println(myHeap.size());
+        int test = -1;
         while (!myHeap.isEmpty()) {
 
             Item removedItem = (Item) myHeap.removeRoot();
-            System.out.print("Key:   " + removedItem.key() + "     ");
-            System.out.println("Removed " + removedItem.element());
+            if (test <= (Integer)removedItem.key()) {
+                test = (Integer)removedItem.key();
+            } else {
+                System.out.println("Failed testing: not in proper order");
+            }
         }
         System.out.println("All nodes removed");
     }
