@@ -28,9 +28,9 @@ public class ArrayHeap extends ArrayBinaryTree implements Heap {
         if (size == btArray.length) {
             expand(btArray.length*2);
         }
-        ArrayPosition newAP = new ArrayPosition(size-1, newItem);
+        ArrayPosition newAP = new ArrayPosition(size, newItem);
+        btArray[size++] = newAP;
         bubbleUp(newAP);
-        size++;
     }
 
     public Object removeRoot() throws EmptyHeapException {
@@ -38,16 +38,23 @@ public class ArrayHeap extends ArrayBinaryTree implements Heap {
             throw new EmptyHeapException("Error: Removing from empty heap");
         }
         ArrayPosition resultAP = (ArrayPosition) root();
-        ArrayPosition lastAP = btArray[size-1];
-        bubbleDown(lastAP);
-        size--;
         Item result = (Item) resultAP.element();
+        ArrayPosition lastAP = btArray[size-1];
+        boolean lastElem = lastAP == resultAP;
+        if (!lastElem) {
+            swap(resultAP, lastAP);
+        }
+        btArray[resultAP.getIndex()] = null;
+        if (!lastElem) {
+            bubbleDown(lastAP);
+        }
+        size--;
         return result;
     }
 
     private void bubbleDown(Position p) {
         ArrayPosition curr = (ArrayPosition) p;
-        while (!isExternal(curr) && heapComp.isLessThan(getApKey(curr), getApKey(smallestChild(curr)))) {
+        while (!isExternal(curr) && heapComp.isGreaterThan(getApKey(curr), getApKey(smallestChild(curr)))) {
             swap(curr, smallestChild(curr));
         }
     }
