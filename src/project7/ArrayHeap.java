@@ -188,7 +188,7 @@ public class ArrayHeap extends ArrayBinaryTree implements Heap {
 
         //Create 10,000 heap elements with random key value and i-loop data value
         for (int i = 0; i < 10000; i++) {
-            int newKey = random.nextInt(10001);
+            int newKey = random.nextInt(Integer.MAX_VALUE);
             myHeap.add(newKey, i);
         }
 
